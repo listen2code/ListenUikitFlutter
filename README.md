@@ -1,39 +1,106 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# ListenUiKit
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+ListenUiKit is a lightweight and easy-to-use UI component library designed for Flutter. It aims to provide a set of commonly used, customizable, and beautiful widgets to help you build consistent user interfaces quickly.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **`CommonButton`**: A versatile button supporting filled, outlined, and text styles. Includes built-in loading indicators, icon support, and full-width/custom sizing.
+- **`CommonDialog`**: A centralized dialog utility supporting single-button messages, confirmations, selection lists, and custom content. Features singleton management to prevent overlapping dialogs.
+- **`CommonToast`**: A global toast utility supporting Info, Success, and Error types with smooth animations.
+- **`CommonImage`**: A unified image component supporting Assets, Network (with caching), Local Files, SVG, and GIF. Built-in elegant gradient placeholders.
+- **`CommonLoading`**: A global loading indicator with support for custom messages.
+- **`CommonText`**: An enhanced Text component supporting `FittedBox` auto-scaling and built-in Container configuration.
+- **`CommonTextField`**: A text input field with labels and custom validation support.
+- **`CommonSwitch`**: A clean, labeled switch component.
+- **`UIKitConfig`**: A global configuration center that supports internationalization through string provider injection.
 
-## Getting started
+## Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add the following dependencies to your `pubspec.yaml`:
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  listen_uikit:
+    git:
+      url: https://github.com/listen2code/ListenUikitFlutter.git
+  listen_core: # Dependency
+    git:
+      url: https://github.com/listen2code/ListenCoreFlutter.git
 ```
 
-## Additional information
+## Getting Started
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+### 1. Localization (Optional)
+
+Before using the components, you can set up custom strings or connect to your i18n system via `UIKitConfig`.
+
+```dart
+import 'package:listen_uikit/uikit.dart';
+
+void main() {
+  UIKitConfig.setup(
+    stringProvider: (key) {
+      final map = {
+        UIKitConfig.kOk: 'OK',
+        UIKitConfig.kCancel: 'Cancel',
+        UIKitConfig.kLoading: 'Loading...',
+      };
+      return map[key] ?? key;
+    },
+  );
+  runApp(const MyApp());
+}
+```
+
+### 2. Basic Usage
+
+#### Button: CommonButton
+```dart
+CommonButton(
+  text: 'Submit',
+  onPressed: () => print('Button Tapped'),
+  type: ButtonType.filled,
+  icon: Icons.send,
+)
+```
+
+#### Dialog: CommonDialog
+```dart
+// Confirmation Dialog
+final result = await CommonDialog.showConfirm(
+  title: 'Delete Notice',
+  message: 'Are you sure you want to delete this record?',
+);
+
+// Switch/Selection Dialog
+CommonDialog.showSwitchDialog(
+  title: 'Select Language',
+  items: [
+    DialogSwitchItem(label: 'Chinese', value: true, onChanged: (v) => {}),
+    DialogSwitchItem(label: 'English', value: false, onChanged: (v) => {}),
+  ],
+);
+```
+
+#### Alerts: CommonToast & CommonLoading
+```dart
+// Show Toast
+CommonToast.show('Saved successfully', type: ToastType.success);
+
+// Show/Hide Loading
+CommonLoading.show(message: 'Uploading...');
+CommonLoading.hide();
+```
+
+#### Image: CommonImage
+```dart
+// Cached Network Image
+CommonImage.url('https://example.com/image.jpg', borderRadius: 8)
+
+// SVG Support
+CommonImage.asset('assets/icons/logo.svg', width: 40)
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
