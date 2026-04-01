@@ -1,49 +1,73 @@
-# ListenUiKit
+# Listen UI Kit
 
-ListenUiKit is a lightweight and easy-to-use UI component library designed for Flutter. It aims to provide a set of commonly used, customizable, and beautiful widgets to help you build consistent user interfaces quickly.
+A professional, consistent, and highly customizable UI component library for Flutter. Designed to accelerate development by providing a set of standardized widgets that follow Material Design 3 specifications with built-in support for internationalization and themes.
 
-## Features
+---
 
-- **`CommonButton`**: A versatile button supporting filled, outlined, and text styles. Includes built-in loading indicators, icon support, and full-width/custom sizing.
-- **`CommonDialog`**: A centralized dialog utility supporting single-button messages, confirmations, selection lists, and custom content. Features singleton management to prevent overlapping dialogs.
-- **`CommonToast`**: A global toast utility supporting Info, Success, and Error types with smooth animations.
-- **`CommonImage`**: A unified image component supporting Assets, Network (with caching), Local Files, SVG, and GIF. Built-in elegant gradient placeholders.
-- **`CommonLoading`**: A global loading indicator with support for custom messages.
-- **`CommonText`**: An enhanced Text component supporting `FittedBox` auto-scaling and built-in Container configuration.
-- **`CommonTextField`**: A text input field with labels and custom validation support.
-- **`CommonSwitch`**: A clean, labeled switch component.
-- **`UIKitConfig`**: A global configuration center that supports internationalization through string provider injection.
+## 🎨 Design Philosophy
 
-## Installation
+### Core Principles
+- **Consistency**: Unified visual style and interaction patterns across all components.
+- **Customizability**: Flexible theming and style configurations for every widget.
+- **Internationalization (i18n)**: Built-in support for dynamic text management.
+- **Modern Design**: Adheres to Material Design 3.0 guidelines.
+- **Developer Friendly**: Clean APIs with comprehensive configuration options.
 
-Add the following dependencies to your `pubspec.yaml`:
+---
+
+## 🧩 Component Categories
+
+### 1. Basic Components
+- **CommonText**: Standardized text with auto-scaling (`FittedBox`) and theme-aware coloring.
+- **CommonImage**: Unified image handling for Assets, Network (cached), Local files, SVG, and GIF.
+- **CommonButton**: Versatile buttons (Filled, Outlined, Text) with built-in loading states and icon support.
+
+### 2. Input Components
+- **CommonTextField**: Form input with labels, validation, and custom styling.
+- **CommonSwitch**: Clean, labeled toggle switches with haptic feedback.
+
+### 3. Container & Presentation
+- **CommonCard**: Standardized containers with shadow, border, and gesture support.
+- **CommonBadge**: Notification badges for counts or status indicators.
+- **CommonChip**: Selectable and deletable tags for filters or labels.
+- **CommonListItem**: Standardized row layouts for settings or data lists.
+
+### 4. Feedback & Loading
+- **CommonToast**: Global message alerts (Success, Error, Info) with smooth animations.
+- **CommonLoading**: Global and inline loading indicators with custom messaging.
+- **CommonDialog**: Centralized dialog utility for confirmations, selections, and custom content.
+- **CommonSkeleton**: Placeholder animations for content loading states.
+- **CommonEmptyView**: Standardized views for "No Data", "Network Error", or "No Results".
+
+---
+
+## 📦 Installation
+
+Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   listen_uikit:
-    git:
-      url: https://github.com/listen2code/ListenUikitFlutter.git
-  listen_core: # Dependency
-    git:
-      url: https://github.com/listen2code/ListenCoreFlutter.git
+    path: ../ListenUiKit
+  listen_core:
+    path: ../ListenCore
 ```
 
-## Getting Started
+---
 
-### 1. Localization (Optional)
+## 🚀 Getting Started
 
-Before using the components, you can set up custom strings or connect to your i18n system via `UIKitConfig`.
+### 1. Initialization & Internationalization
+Set up the global configuration and inject your translation logic via `UIKitConfig`.
 
 ```dart
-import 'package:listen_uikit/uikit.dart';
-
 void main() {
-  UIKitConfig.setup(
+  UIKitConfig.init(
     stringProvider: (key) {
       final map = {
         UIKitConfig.kOk: 'OK',
         UIKitConfig.kCancel: 'Cancel',
-        UIKitConfig.kLoading: 'Loading...',
+        UIKitConfig.kRetry: 'Retry',
       };
       return map[key] ?? key;
     },
@@ -54,57 +78,51 @@ void main() {
 
 ### 2. Basic Usage
 
-#### Button: CommonButton
+#### Button & Toast
 ```dart
-CommonButton(
+CommonButton.filled(
   text: 'Submit',
-  onPressed: () => print('Button Tapped'),
-  type: ButtonType.filled,
-  icon: Icons.send,
+  onPressed: () => CommonToast.success('Action Completed'),
+  isLoading: false,
 )
 ```
 
-#### Dialog: CommonDialog
+#### Dialogs
 ```dart
-// Confirmation Dialog
-final result = await CommonDialog.showConfirm(
-  title: 'Delete Notice',
-  message: 'Are you sure you want to delete this record?',
-);
-
-// Switch/Selection Dialog
-CommonDialog.showSwitchDialog(
-  title: 'Select Language',
-  items: [
-    DialogSwitchItem(label: 'Chinese', value: true, onChanged: (v) => {}),
-    DialogSwitchItem(label: 'English', value: false, onChanged: (v) => {}),
-  ],
+final confirmed = await CommonDialog.showConfirm(
+  title: 'Delete Item',
+  message: 'Are you sure you want to proceed?',
 );
 ```
 
-#### Alerts: CommonToast & CommonLoading
+#### Images
 ```dart
-// Show Toast
-CommonToast.show('Saved successfully', type: ToastType.success);
-
-// Show/Hide Loading
-CommonLoading.show(message: 'Uploading...');
-CommonLoading.hide();
+CommonImage.url(
+  'https://example.com/image.jpg',
+  borderRadius: 8.0,
+  fit: BoxFit.cover,
+)
 ```
 
-#### Image: CommonImage
-```dart
-// Cached Network Image
-CommonImage.url('https://example.com/image.jpg', borderRadius: 8)
+---
 
-// SVG Support
-CommonImage.asset('assets/icons/logo.svg', width: 40)
-```
+## 📊 Component Statistics
 
-## License
+| Category | Count | Primary Purpose |
+|----------|-------|-----------------|
+| Basic | 3 | Text, Image, Button |
+| Input | 2 | Forms, Toggles |
+| Container | 4 | Layout, Cards, Lists |
+| Feedback | 6 | Dialogs, Loading, Toasts |
+| **Total** | **15** | **Complete UI Solution** |
 
+---
+
+## 🔮 Roadmap
+- [ ] Support for advanced charts and data tables.
+- [ ] Enhanced animation library for transitions.
+- [ ] Theme preset templates (Dark, Light, High Contrast).
+- [ ] Visual documentation and component gallery app.
+
+## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-
-## todo
-* demo
