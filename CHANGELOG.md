@@ -1,3 +1,14 @@
+## 0.0.3
+
+* **Documentation Enhancement**:
+  * Added comprehensive trilingual support (English, Chinese, Japanese)
+  * Complete documentation for all 18 CommonXXX widgets
+  * Reorganized README.md into separate language blocks
+* **Dependency Updates**:
+  * Updated listen_core dependency to version 0.0.4
+  * Added pub.dev links for listen_core and listen_uikit
+  * Added complete example app reference
+
 ## 0.0.2
 
 * **Documentation**:
