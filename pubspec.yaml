@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  listen_core: ^0.0.5
+  listen_core: ^0.0.6
   cached_network_image: ^3.4.1
   flutter_svg: ^2.2.3
 
@@ -56,3 +56,8 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+
+
+dependency_overrides:
+  listen_core:
+    path: ../ListenCore
