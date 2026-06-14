@@ -1,3 +1,9 @@
+## 0.0.4
+
+* **Environment Update**:
+  * Upgraded environment SDK constraints to Dart `^3.12.1` to support Flutter `3.44.1`.
+  * Updated dependency on `listen_core` reference compatibility.
+
 ## 0.0.3
 
 * **Documentation Enhancement**:
