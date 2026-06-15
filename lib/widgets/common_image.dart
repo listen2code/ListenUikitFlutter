@@ -20,6 +20,9 @@ class CommonImage extends StatelessWidget {
   final int? memCacheWidth;
   final int? memCacheHeight;
 
+  final String? semanticLabel;
+  final bool excludeFromSemantics;
+
   const CommonImage.asset(
     this.source, {
     super.key,
@@ -28,6 +31,8 @@ class CommonImage extends StatelessWidget {
     this.fit = BoxFit.contain,
     this.color,
     this.borderRadius = 0,
+    this.semanticLabel,
+    this.excludeFromSemantics = false,
   }) : _type = _ImageType.asset,
        memCacheWidth = null,
        memCacheHeight = null;
@@ -42,6 +47,8 @@ class CommonImage extends StatelessWidget {
     this.borderRadius = 0,
     this.memCacheWidth,
     this.memCacheHeight,
+    this.semanticLabel,
+    this.excludeFromSemantics = false,
   }) : _type = _ImageType.network;
 
   CommonImage.file(
@@ -52,6 +59,8 @@ class CommonImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.color,
     this.borderRadius = 0,
+    this.semanticLabel,
+    this.excludeFromSemantics = false,
   }) : source = file.path,
        _type = _ImageType.file,
        memCacheWidth = null,
@@ -88,7 +97,17 @@ class CommonImage extends StatelessWidget {
     }
 
     if (borderRadius > 0) {
-      return ClipRRect(borderRadius: BorderRadius.circular(borderRadius), child: image);
+      image = ClipRRect(borderRadius: BorderRadius.circular(borderRadius), child: image);
+    }
+
+    if (excludeFromSemantics) {
+      return ExcludeSemantics(child: image);
+    } else if (semanticLabel != null) {
+      return Semantics(
+        label: semanticLabel,
+        image: true,
+        child: image,
+      );
     }
 
     return image;
@@ -162,19 +181,21 @@ class CommonImage extends StatelessWidget {
 
   Widget _buildPlaceholder(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        // Smooth gradient placeholder replacing the spinner
-        gradient: LinearGradient(
-          colors: [
-            theme.dividerColor.withValues(alpha: 0.05),
-            theme.dividerColor.withValues(alpha: 0.1),
-            theme.dividerColor.withValues(alpha: 0.05),
-          ],
-          begin: const Alignment(-1.0, -0.5),
-          end: const Alignment(1.0, 0.5),
+    return ExcludeSemantics(
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          // Smooth gradient placeholder replacing the spinner
+          gradient: LinearGradient(
+            colors: [
+              theme.dividerColor.withValues(alpha: 0.05),
+              theme.dividerColor.withValues(alpha: 0.1),
+              theme.dividerColor.withValues(alpha: 0.05),
+            ],
+            begin: const Alignment(-1.0, -0.5),
+            end: const Alignment(1.0, 0.5),
+          ),
         ),
       ),
     );
@@ -182,11 +203,13 @@ class CommonImage extends StatelessWidget {
 
   Widget _buildErrorWidget(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      width: width,
-      height: height,
-      color: theme.dividerColor.withValues(alpha: 0.1),
-      child: const Icon(Icons.broken_image_outlined, color: Colors.grey, size: 24),
+    return ExcludeSemantics(
+      child: Container(
+        width: width,
+        height: height,
+        color: theme.dividerColor.withValues(alpha: 0.1),
+        child: const Icon(Icons.broken_image_outlined, color: Colors.grey, size: 24),
+      ),
     );
   }
 }

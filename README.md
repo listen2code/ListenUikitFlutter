@@ -1,4 +1,4 @@
-﻿# Listen UI Kit
+# Listen UI Kit
 
 ## English
 
@@ -77,7 +77,7 @@ If you use `CommonDialog` or `CommonLoading`, make sure your app has already set
 
 ### Exported Widget Map
 
-- Basic: `CommonText`, `CommonImage`, `CommonButton`, `CommonInkWell`, `CommonDivider`
+- Basic: `CommonText`, `CommonImage`, `CommonButton`, `CommonClickable`, `CommonDivider`
 - Input: `CommonTextField`, `CommonSwitch`
 - Container / Presentation: `CommonCard`, `CommonBadge`, `CommonChip`, `CommonListItem`
 - Feedback: `CommonToast`, `CommonLoading`, `CommonDialog`, `CommonSkeleton`, `CommonEmptyView`, `CommonRefreshList`
@@ -179,7 +179,7 @@ void main() {
 
 ### 导出组件概览
 
-- 基础类：`CommonText`、`CommonImage`、`CommonButton`、`CommonInkWell`、`CommonDivider`
+- 基础类：`CommonText`、`CommonImage`、`CommonButton`、`CommonClickable`、`CommonDivider`
 - 输入类：`CommonTextField`、`CommonSwitch`
 - 容器 / 展示类：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`
 - 反馈类：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
@@ -281,7 +281,7 @@ void main() {
 
 ### 主要コンポーネント
 
-- 基本：`CommonText`、`CommonImage`、`CommonButton`、`CommonInkWell`、`CommonDivider`
+- 基本：`CommonText`、`CommonImage`、`CommonButton`、`CommonClickable`、`CommonDivider`
 - 入力：`CommonTextField`、`CommonSwitch`
 - コンテナ / 表示：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`
 - フィードバック：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`

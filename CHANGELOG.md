@@ -1,3 +1,16 @@
+## 0.0.6
+
+* **Accessibility & Interactive Consolidations**:
+  * Unified `CommonInkWell` and custom clickable behaviors into the new **`CommonClickable`** widget.
+  * Added native accessibility support (`semanticLabel`, `excludeFromSemantics`, `selected`) to `CommonClickable`.
+  * Added `semanticLabel` and `excludeFromSemantics` parameters to `CommonImage` constructors.
+  * Deprecated and deleted `CommonInkWell` to guide transition to `CommonClickable`.
+
+## 0.0.5
+
+* **Theme integration update**:
+  * Added compatibility for Material You dynamic color scheme injection.
+
 ## 0.0.4
 
 * **Environment Update**:
