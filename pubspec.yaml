@@ -1,6 +1,6 @@
 name: listen_uikit
 description: "UiKit of Flutter Architecture"
-version: 0.0.6
+version: 0.0.7
 repository: https://github.com/listen2code/ListenUikitFlutter
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  listen_core: ^0.0.7
+  listen_core: ^0.0.8
   cached_network_image: ^3.4.1
   flutter_svg: ^2.2.3
 

@@ -1,3 +1,8 @@
+## 0.0.7
+
+* **Dependency Update**:
+  * Updated dependency on `listen_core` to `^0.0.8`.
+
 ## 0.0.6
 
 * **Accessibility & Interactive Consolidations**:
