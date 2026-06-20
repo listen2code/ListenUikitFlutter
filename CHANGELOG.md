@@ -1,3 +1,8 @@
+## 0.0.9
+
+* **Dependency Update**:
+    * Updated dependency on `listen_core` to `^0.0.10`.
+
 ## 0.0.8
 
 * **Dependency Update**:
