@@ -79,8 +79,16 @@ If you use `CommonDialog` or `CommonLoading`, make sure your app has already set
 
 - Basic: `CommonText`, `CommonImage`, `CommonButton`, `CommonClickable`, `CommonDivider`
 - Input: `CommonTextField`, `CommonSwitch`
-- Container / Presentation: `CommonCard`, `CommonBadge`, `CommonChip`, `CommonListItem`
+- Container / Presentation: `CommonCard`, `CommonBadge`, `CommonChip`, `CommonListItem`, `CommonWebView`
 - Feedback: `CommonToast`, `CommonLoading`, `CommonDialog`, `CommonSkeleton`, `CommonEmptyView`, `CommonRefreshList`
+
+### CommonWebView Usage
+
+A commercial-grade WebView wrapper based on `flutter_inappwebview`. It supports:
+- Fullscreen page style (with system AppBar) or inline layout (embedded into any parent layout).
+- Custom progress bar, pull-to-refresh, and customized retry error screen (`CommonEmptyView`).
+- **Auto-height Adaptation (`shrinkWrap` mode)**: Easily display inside dialogs (e.g. `CommonDialog.showCustom`), sensing actual HTML height dynamically via `ResizeObserver` and setting scrollbars when hitting maximum constraints.
+- **Advanced Navigation Interception**: Differentiate between user-clicked link navigation and client-side programmatic redirects using `shouldOverrideUrlLoadingWithAction` and the gesture properties in `NavigationAction`.
 
 ### Current Limitations
 
@@ -181,8 +189,16 @@ void main() {
 
 - 基础类：`CommonText`、`CommonImage`、`CommonButton`、`CommonClickable`、`CommonDivider`
 - 输入类：`CommonTextField`、`CommonSwitch`
-- 容器 / 展示类：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`
+- 容器 / 展示类：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
 - 反馈类：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
+
+### CommonWebView 使用指南
+
+基于 `flutter_inappwebview` 封装的商用级 WebView。主要特点：
+- 全屏页面模式（内置导航栏）与嵌入式布局（可作为普通 Widget 嵌入任何画面）。
+- 自定义进度条、下拉刷新以及美观的错误重试兜底页（`CommonEmptyView`）。
+- **高度自适应（`shrinkWrap` 模式）**：适用于弹窗（如 `CommonDialog.showCustom`），通过 `ResizeObserver` 自动计算并适配网页真实高度，达到最大高度限制时自动显现滚动条。
+- **高级跳转拦截**：通过 `shouldOverrideUrlLoadingWithAction` 回调，结合手势标志位，精准区分用户手动点击触发的跳转与 HTML 内部脚本重定向跳转。
 
 ### 当前限制
 
@@ -283,8 +299,16 @@ void main() {
 
 - 基本：`CommonText`、`CommonImage`、`CommonButton`、`CommonClickable`、`CommonDivider`
 - 入力：`CommonTextField`、`CommonSwitch`
-- コンテナ / 表示：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`
+- コンテナ / 表示：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
 - フィードバック：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
+
+### CommonWebView の使用方法
+
+`flutter_inappwebview` に基づく商用グレードの WebView ラッパー。以下をサポート：
+- フルスクリーンページ（内置ナビゲーションバー）またはインラインレイアウト（ウィジェットとして任意の画面に埋め込み可能）。
+- カスタム進行状況バー、プルダウン更新、および美しくデザインされたエラーリトライ画面（`CommonEmptyView`）。
+- **高さ自動調整（`shrinkWrap` モード）**：ダイアログ（例：`CommonDialog.showCustom`）などでの埋め込みに最適。`ResizeObserver` を介してコンテンツの長さを動的に検知・調整し、最大高さ制限に達すると自動的にスクロールバーを表示。
+- **高度な遷移制御**：`shouldOverrideUrlLoadingWithAction` コールバックとジェスチャー判定を利用し、ユーザーのタップによる遷移か、HTML 内部の自動/リダイレクトによる遷移かを正確に識別。
 
 ### 現在の制約
 

@@ -1,7 +1,14 @@
+## 0.0.11
+
+* **CommonWebView**:
+    * Added `shrinkWrap` auto-height sensing mode based on dynamic `ResizeObserver` injection.
+    * Added `shouldOverrideUrlLoadingWithAction` advanced navigation interceptor callback to support detailed `NavigationAction` parameter mapping (e.g. `hasGesture`, `isRedirect`, and `navigationType`).
+
 ## 0.0.10
 
-* **CommonDialog**:
-    * Add Parameter.
+* **CommonWebView & CommonDialog**:
+    * Added initial implementation of commercial-grade `CommonWebView` widget.
+    * Extended `CommonDialog` parameter support.
 
 ## 0.0.9
 

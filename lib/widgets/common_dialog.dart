@@ -189,7 +189,7 @@ class CommonDialog {
 
   /// Shows a custom content dialog with a title and optional actions.
   static Future<T?> showCustom<T>({
-    required String title,
+    String? title,
     required Widget body,
     List<Widget>? actions,
     bool barrierDismissible = true,
@@ -199,7 +199,9 @@ class CommonDialog {
       barrierDismissible: barrierDismissible,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: CommonText(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: title?.isNotEmpty == true
+            ? CommonText(title!, style: const TextStyle(fontWeight: FontWeight.bold))
+            : null,
         content: body,
         actions: actions,
       ),
