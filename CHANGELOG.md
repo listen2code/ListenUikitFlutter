@@ -1,3 +1,8 @@
+## 0.0.10
+
+* **CommonDialog**:
+    * Add Parameter.
+
 ## 0.0.9
 
 * **Dependency Update**:

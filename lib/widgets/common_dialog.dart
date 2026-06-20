@@ -128,6 +128,7 @@ class CommonDialog {
     required String title,
     required List<DialogSwitchItem> items,
     bool isMultiSelect = false,
+    List<Widget>? actions,
   }) async {
     await _show<void>(
       tag: null,
@@ -170,14 +171,16 @@ class CommonDialog {
                     .toList(),
               ),
             ),
-            actions: [
-              CommonButton(
-                text: UIKitConfig.getString(UIKitConfig.kOk),
-                type: ButtonType.text,
-                isFullWidth: false,
-                onPressed: () => AppNav.back(),
-              ),
-            ],
+            actions:
+                actions ??
+                [
+                  CommonButton(
+                    text: UIKitConfig.getString(UIKitConfig.kOk),
+                    type: ButtonType.text,
+                    isFullWidth: false,
+                    onPressed: () => AppNav.back(),
+                  ),
+                ],
           );
         },
       ),
