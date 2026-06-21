@@ -1,3 +1,8 @@
+## 0.0.13
+
+* **CommonWebView**:
+    * Added `InAppWebViewController.clearAllCache()` 
+  
 ## 0.0.12
 
 * **CommonWebView**:
