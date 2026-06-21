@@ -72,9 +72,7 @@ class CommonWebViewController {
 
   /// Clear WebView cache
   Future<void> clearCache() async {
-    if (_inAppWebViewController != null) {
-      await _inAppWebViewController!.clearAllCache();
-    }
+    await InAppWebViewController.clearAllCache();
   }
 
   /// Evaluate custom Javascript code in the webpage
@@ -258,7 +256,7 @@ class _CommonWebViewState extends State<CommonWebView> {
 
     final theme = Theme.of(context);
     final scaffold = Scaffold(
-      appBar: widget.showAppBar ? _buildAppBar(theme) : null,
+      appBar: widget.showAppBar ? _buildAppBar(context, theme) : null,
       body: _buildWebViewBody(context, theme),
     );
 
@@ -376,7 +374,7 @@ class _CommonWebViewState extends State<CommonWebView> {
     }
   }
 
-  PreferredSizeWidget _buildAppBar(ThemeData theme) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, ThemeData theme) {
     return AppBar(
       title: CommonText(
         _currentTitle ?? '',
