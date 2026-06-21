@@ -1,3 +1,8 @@
+## 0.0.12
+
+* **CommonWebView**:
+    * Added `enableBackHistory` parameter to control whether to allow going back in WebView browser history before popping the route.
+  
 ## 0.0.11
 
 * **CommonWebView**:

@@ -73,7 +73,7 @@ class CommonWebViewController {
   /// Clear WebView cache
   Future<void> clearCache() async {
     if (_inAppWebViewController != null) {
-      await _inAppWebViewController!.clearCache();
+      await _inAppWebViewController!.clearAllCache();
     }
   }
 
@@ -181,6 +181,11 @@ class CommonWebView extends StatefulWidget {
   /// The minimum height limit when [shrinkWrap] is enabled.
   final double? minHtmlHeight;
 
+  /// Whether to allow going back in WebView browser history before popping the route.
+  /// If set to true (default), the back button and gesture will navigate back in H5 history.
+  /// If set to false, they will directly close the WebView (pop the route).
+  final bool enableBackHistory;
+
   const CommonWebView({
     super.key,
     this.initialUrl,
@@ -206,6 +211,7 @@ class CommonWebView extends StatefulWidget {
     this.shrinkWrap = true,
     this.maxHtmlHeight,
     this.minHtmlHeight,
+    this.enableBackHistory = true,
   }) : assert(initialUrl != null || initialHtml != null, 'Either initialUrl or initialHtml must be provided');
 
   @override
@@ -251,9 +257,29 @@ class _CommonWebViewState extends State<CommonWebView> {
     }
 
     final theme = Theme.of(context);
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: widget.showAppBar ? _buildAppBar(theme) : null,
       body: _buildWebViewBody(context, theme),
+    );
+
+    if (!widget.enableBackHistory) {
+      return scaffold;
+    }
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final canGoBack = await _webViewController.canGoBack();
+        if (canGoBack) {
+          await _webViewController.goBack();
+        } else {
+          if (context.mounted) {
+            Navigator.of(context).pop(result);
+          }
+        }
+      },
+      child: scaffold,
     );
   }
 
@@ -263,12 +289,32 @@ class _CommonWebViewState extends State<CommonWebView> {
     final maxHeight = widget.maxHtmlHeight ?? 400.0;
     final currentHeight = _htmlHeight ?? minHeight;
 
-    return ConstrainedBox(
+    final webViewWidget = ConstrainedBox(
       constraints: BoxConstraints(minHeight: minHeight, maxHeight: maxHeight),
       child: SizedBox(
         height: currentHeight,
         child: _buildWebViewBody(context, theme),
       ),
+    );
+
+    if (!widget.enableBackHistory) {
+      return webViewWidget;
+    }
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final canGoBack = await _webViewController.canGoBack();
+        if (canGoBack) {
+          await _webViewController.goBack();
+        } else {
+          if (context.mounted) {
+            Navigator.of(context).pop(result);
+          }
+        }
+      },
+      child: webViewWidget,
     );
   }
 
@@ -339,7 +385,18 @@ class _CommonWebViewState extends State<CommonWebView> {
       leading: Navigator.canPop(context)
           ? IconButton(
               icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () async {
+                if (widget.enableBackHistory) {
+                  final canGoBack = await _webViewController.canGoBack();
+                  if (canGoBack) {
+                    await _webViewController.goBack();
+                    return;
+                  }
+                }
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
             )
           : null,
       actions: [
