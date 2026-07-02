@@ -7,6 +7,7 @@ export 'uikit_config.dart';
 export 'widgets/common_text.dart';
 export 'widgets/common_image.dart';
 export 'widgets/common_button.dart';
+export 'widgets/common_icon_button.dart';
 export 'widgets/common_clickable.dart';
 export 'widgets/common_divider.dart';
 

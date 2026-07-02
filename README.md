@@ -77,7 +77,7 @@ If you use `CommonDialog` or `CommonLoading`, make sure your app has already set
 
 ### Exported Widget Map
 
-- Basic: `CommonText`, `CommonImage`, `CommonButton`, `CommonClickable`, `CommonDivider`
+- Basic: `CommonText`, `CommonImage`, `CommonButton`, `CommonIconButton`, `CommonClickable`, `CommonDivider`
 - Input: `CommonTextField`, `CommonSwitch`
 - Container / Presentation: `CommonCard`, `CommonBadge`, `CommonChip`, `CommonListItem`, `CommonWebView`
 - Feedback: `CommonToast`, `CommonLoading`, `CommonDialog`, `CommonSkeleton`, `CommonEmptyView`, `CommonRefreshList`
@@ -89,6 +89,18 @@ A commercial-grade WebView wrapper based on `flutter_inappwebview`. It supports:
 - Custom progress bar, pull-to-refresh, and customized retry error screen (`CommonEmptyView`).
 - **Auto-height Adaptation (`shrinkWrap` mode)**: Easily display inside dialogs (e.g. `CommonDialog.showCustom`), sensing actual HTML height dynamically via `ResizeObserver` and setting scrollbars when hitting maximum constraints.
 - **Advanced Navigation Interception**: Differentiate between user-clicked link navigation and client-side programmatic redirects using `shouldOverrideUrlLoadingWithAction` and the gesture properties in `NavigationAction`.
+
+### CommonIconButton / CommonButton Usage
+
+Both `CommonButton` and `CommonIconButton` support built-in debouncing, haptic feedback, and loading indicators:
+- **Debouncing**: Prevents rapid double-tapping based on a configurable `debounceDuration` (defaulting to 500ms).
+- **Haptic Feedback**: Triggers native micro-vibrations upon tap when `useHaptic` is enabled (defaulting to true).
+- **Loading State**: Displays a `CircularProgressIndicator` inside the button and disables interaction automatically when `isLoading` is set to true.
+
+`CommonIconButton` supports three button styles via `IconButtonType`:
+- `IconButtonType.plain`: Transparent background, icon-only style.
+- `IconButtonType.filled`: Solid background using primary color.
+- `IconButtonType.outlined`: Outlined border around the icon.
 
 ### Current Limitations
 
@@ -187,7 +199,7 @@ void main() {
 
 ### 导出组件概览
 
-- 基础类：`CommonText`、`CommonImage`、`CommonButton`、`CommonClickable`、`CommonDivider`
+- 基础类：`CommonText`、`CommonImage`、`CommonButton`、`CommonIconButton`、`CommonClickable`、`CommonDivider`
 - 输入类：`CommonTextField`、`CommonSwitch`
 - 容器 / 展示类：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
 - 反馈类：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
@@ -199,6 +211,18 @@ void main() {
 - 自定义进度条、下拉刷新以及美观的错误重试兜底页（`CommonEmptyView`）。
 - **高度自适应（`shrinkWrap` 模式）**：适用于弹窗（如 `CommonDialog.showCustom`），通过 `ResizeObserver` 自动计算并适配网页真实高度，达到最大高度限制时自动显现滚动条。
 - **高级跳转拦截**：通过 `shouldOverrideUrlLoadingWithAction` 回调，结合手势标志位，精准区分用户手动点击触发的跳转与 HTML 内部脚本重定向跳转。
+
+### CommonIconButton / CommonButton 使用指南
+
+`CommonButton` 与 `CommonIconButton` 均内置了防抖保护、触觉反馈以及加载状态指示：
+- **防抖保护 (Bounce)**：基于可配置的 `debounceDuration`（默认 500ms）自动拦截快速连续的重复点击。
+- **触觉反馈 (Haptic)**：开启 `useHaptic`（默认 true）时，轻触按钮即可触发原生微弱的震动。
+- **加载状态 (Loading)**：将 `isLoading` 设为 true 时，按钮会自动置灰禁止交互，并在中心渲染 `CircularProgressIndicator` 进度环。
+
+`CommonIconButton` 支持三种样式类型：
+- `IconButtonType.plain`：透明背景的纯图标形式。
+- `IconButtonType.filled`：实色背景（默认主题 primary 色）。
+- `IconButtonType.outlined`：带描边线框的图标按钮。
 
 ### 当前限制
 
@@ -297,7 +321,7 @@ void main() {
 
 ### 主要コンポーネント
 
-- 基本：`CommonText`、`CommonImage`、`CommonButton`、`CommonClickable`、`CommonDivider`
+- 基本：`CommonText`、`CommonImage`、`CommonButton`、`CommonIconButton`、`CommonClickable`、`CommonDivider`
 - 入力：`CommonTextField`、`CommonSwitch`
 - コンテナ / 表示：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
 - フィードバック：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
@@ -309,6 +333,18 @@ void main() {
 - カスタム進行状況バー、プルダウン更新、および美しくデザインされたエラーリトライ画面（`CommonEmptyView`）。
 - **高さ自動調整（`shrinkWrap` モード）**：ダイアログ（例：`CommonDialog.showCustom`）などでの埋め込みに最適。`ResizeObserver` を介してコンテンツの長さを動的に検知・調整し、最大高さ制限に達すると自動的にスクロールバーを表示。
 - **高度な遷移制御**：`shouldOverrideUrlLoadingWithAction` コールバックとジェスチャー判定を利用し、ユーザーのタップによる遷移か、HTML 内部の自動/リダイレクトによる遷移かを正確に識別。
+
+### CommonIconButton / CommonButton の使用方法
+
+`CommonButton` と `CommonIconButton` は、どちらもクリック防抖（重複防止）、触覚フィードバック、およびローディングインジケータを標準でサポートしています：
+- **防抖処理 (Debounce)**：設定可能な `debounceDuration`（デフォルト 500ms）に基づいて、短時間での高速ダブルタップを自動で防止します。
+- **触覚フィードバック (Haptic)**：`useHaptic`（デフォルト true）が有効な場合、タップ時にネイティブのマイクロバイブレーションを発生させます。
+- **ローディング状態 (Loading)**：`isLoading` を true に設定すると、ボタンが自動的に無効化され、中央に `CircularProgressIndicator` を表示します。
+
+`CommonIconButton` は `IconButtonType` を通じて3つのボタンスタイルをサポートします：
+- `IconButtonType.plain`：透明な背景、アイコンのみのスタイル。
+- `IconButtonType.filled`：プライマリカラーを使用した塗りつぶし背景。
+- `IconButtonType.outlined`：アイコンの周囲にアウトライン枠線を表示。
 
 ### 現在の制約
 
