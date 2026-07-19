@@ -1,3 +1,15 @@
+## 0.0.16
+
+- **New Features**:
+    - Introduced `CommonBottomSheet` in `lib/widgets/common_bottom_sheet.dart`, providing a static `show` method that wraps `showModalBottomSheet` with a default top radius.
+- **Library Exports**:
+    - Exported `common_bottom_sheet.dart` in `lib/uikit.dart` to make the new widget available to consumers.
+- **Dependencies**:
+    - Upgraded `listen_core` from `^0.0.32` to `^0.0.36` in `pubspec.yaml`.
+- **Project Metadata**:
+    - Bumped package version to `0.0.16`.
+    - Updated `CHANGELOG.md` to reflect version `0.0.16` changes.
+  
 ## 0.0.15
 
 * **Add common_icon_button.dart**:
