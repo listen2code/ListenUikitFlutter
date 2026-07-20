@@ -1,3 +1,19 @@
+## 0.0.17
+
+- **WebView Navigation & Back Gesture Integration**:
+    - Refactored `CommonWebView` to use dynamic `canPop` logic in its `PopScope` based on the browser back history state (`canPop: !widget.enableBackHistory || !_canGoBack`).
+    - Added dynamic history tracking using `onUpdateVisitedHistory` and `onLoadStop` callbacks.
+    - Replaced the conditional building of the `InAppWebView` widget with `Offstage` in `_buildWebViewBody` to keep the native view and method channel alive on load errors (resolving the `MissingPluginException` on retry).
+- **Custom Scheme Routing**:
+    - Added `url_launcher` dependency (`^6.3.2`) to the package.
+    - Updated `shouldOverrideUrlLoading` in `CommonWebView` to automatically catch custom URI schemes (like `mailto:`, `tel:`, `sms:`) and launch them externally in the system browser/email client rather than letting the WebView fail.
+    - Introduced the `webSchemes` parameter (defaulting to `['http', 'https', 'file', 'chrome', 'about']`) to allow callers to configure which URL schemes are treated as internal web content.
+- **Dependencies**:
+    - Upgraded `listen_core` dependency from `^0.0.36` to `^0.0.37`.
+- **Project Metadata**:
+    - Bumped package version to `0.0.17`.
+    - Updated `CHANGELOG.md` to reflect version `0.0.17` changes.
+
 ## 0.0.16
 
 - **New Features**:

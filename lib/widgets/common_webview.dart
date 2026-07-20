@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../uikit.dart';
 
 /// A wrapper class for controlling the WebView from parent widgets.
@@ -184,6 +185,11 @@ class CommonWebView extends StatefulWidget {
   /// If set to false, they will directly close the WebView (pop the route).
   final bool enableBackHistory;
 
+  /// The list of URI schemes that are treated as internal web content.
+  /// Any scheme not in this list will be intercepted and launched externally.
+  /// Defaults to `['http', 'https', 'file', 'chrome', 'about']`.
+  final List<String> webSchemes;
+
   const CommonWebView({
     super.key,
     this.initialUrl,
@@ -210,6 +216,7 @@ class CommonWebView extends StatefulWidget {
     this.maxHtmlHeight,
     this.minHtmlHeight,
     this.enableBackHistory = true,
+    this.webSchemes = const ['http', 'https', 'file', 'chrome', 'about'],
   }) : assert(initialUrl != null || initialHtml != null, 'Either initialUrl or initialHtml must be provided');
 
   @override
@@ -227,6 +234,7 @@ class _CommonWebViewState extends State<CommonWebView> {
   String? _failedUrl;
   String? _currentTitle;
   double? _htmlHeight;
+  bool _canGoBack = false;
 
   @override
   void initState() {
@@ -264,17 +272,15 @@ class _CommonWebViewState extends State<CommonWebView> {
       return scaffold;
     }
 
+    final bool canPopWeb = !widget.enableBackHistory || !_canGoBack;
+
     return PopScope(
-      canPop: false,
+      canPop: canPopWeb,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
         final canGoBack = await _webViewController.canGoBack();
         if (canGoBack) {
           await _webViewController.goBack();
-        } else {
-          if (context.mounted) {
-            Navigator.of(context).pop(result);
-          }
         }
       },
       child: scaffold,
@@ -299,17 +305,15 @@ class _CommonWebViewState extends State<CommonWebView> {
       return webViewWidget;
     }
 
+    final bool canPopWeb = !widget.enableBackHistory || !_canGoBack;
+
     return PopScope(
-      canPop: false,
+      canPop: canPopWeb,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
         final canGoBack = await _webViewController.canGoBack();
         if (canGoBack) {
           await _webViewController.goBack();
-        } else {
-          if (context.mounted) {
-            Navigator.of(context).pop(result);
-          }
         }
       },
       child: webViewWidget,
@@ -319,8 +323,11 @@ class _CommonWebViewState extends State<CommonWebView> {
   Widget _buildWebViewBody(BuildContext context, ThemeData theme) {
     return Stack(
       children: [
-        // 1. WebView Viewport
-        if (!_hasError) _buildWebView(context),
+        // 1. WebView Viewport - Always keep in tree to preserve native view and controller channel
+        Offstage(
+          offstage: _hasError,
+          child: _buildWebView(context),
+        ),
 
         // 2. Custom Error View
         if (_hasError) _buildErrorView(),
@@ -478,6 +485,20 @@ class _CommonWebViewState extends State<CommonWebView> {
         if (widget.shrinkWrap) {
           await _injectHeightReporter(controller);
         }
+        final canBack = await controller.canGoBack();
+        if (mounted && _canGoBack != canBack) {
+          setState(() {
+            _canGoBack = canBack;
+          });
+        }
+      },
+      onUpdateVisitedHistory: (controller, url, isReload) async {
+        final canBack = await controller.canGoBack();
+        if (mounted && _canGoBack != canBack) {
+          setState(() {
+            _canGoBack = canBack;
+          });
+        }
       },
       onReceivedError: (controller, request, error) {
         // Exclude loading cancels or minor events to prevent false error pages
@@ -538,10 +559,26 @@ class _CommonWebViewState extends State<CommonWebView> {
             return policy;
           }
         }
-        final urlStr = navigationAction.request.url?.toString();
-        if (urlStr != null && widget.shouldOverrideUrlLoading != null) {
-          final block = widget.shouldOverrideUrlLoading!(urlStr);
-          return block ? NavigationActionPolicy.CANCEL : NavigationActionPolicy.ALLOW;
+        final url = navigationAction.request.url;
+        if (url != null) {
+          if (!widget.webSchemes.contains(url.scheme)) {
+            try {
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                debugPrint('Cannot launch custom scheme URL: $url');
+              }
+            } catch (e) {
+              debugPrint('Error launching custom scheme URL: $e');
+            }
+            return NavigationActionPolicy.CANCEL;
+          }
+
+          final urlStr = url.toString();
+          if (widget.shouldOverrideUrlLoading != null) {
+            final block = widget.shouldOverrideUrlLoading!(urlStr);
+            return block ? NavigationActionPolicy.CANCEL : NavigationActionPolicy.ALLOW;
+          }
         }
         return NavigationActionPolicy.ALLOW;
       },
