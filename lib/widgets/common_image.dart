@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,10 @@ enum _ImageType { asset, network, file }
 
 /// A unified image component supporting assets, network (with caching), disk files, SVG, and optimized GIFs.
 class CommonImage extends StatelessWidget {
+  static const String _base64Scheme = 'data:image/';
+  static const String _base64Indicator = ';base64,';
+  static const String _base64Separator = ',';
+
   final String source;
   final double? width;
   final double? height;
@@ -77,8 +82,11 @@ class CommonImage extends StatelessWidget {
 
     final isSvg = source.toLowerCase().endsWith('.svg');
     final isGif = source.toLowerCase().endsWith('.gif');
+    final isBase64 = source.startsWith(_base64Scheme) || source.contains(_base64Indicator);
 
-    if (isSvg) {
+    if (isBase64) {
+      image = _buildBase64Image(context);
+    } else if (isSvg) {
       image = _buildSvgImage();
     } else if (isGif && _type == _ImageType.network) {
       image = _buildNativelyHandledNetworkImage(context);
@@ -139,6 +147,17 @@ class CommonImage extends StatelessWidget {
         colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
         placeholderBuilder: (context) => _buildPlaceholder(context),
       );
+    }
+  }
+
+  Widget _buildBase64Image(BuildContext context) {
+    try {
+      final commaIndex = source.indexOf(_base64Separator);
+      final base64Str = commaIndex != -1 ? source.substring(commaIndex + 1) : source;
+      final bytes = base64Decode(base64Str.trim());
+      return Image.memory(bytes, width: width, height: height, fit: fit, color: color);
+    } catch (e) {
+      return _buildErrorWidget(context);
     }
   }
 

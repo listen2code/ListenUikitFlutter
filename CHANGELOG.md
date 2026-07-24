@@ -1,3 +1,13 @@
+## 0.0.18
+- **CommonImage Enhancements**:
+    - Added support for Base64 encoded images by detecting data URI schemes (e.g., `data:image/...;base64,`).
+    - Implemented `_buildBase64Image` to decode Base64 strings and render them using `Image.memory`.
+    - Integrated Base64 detection into the main image building logic, prioritizing it alongside SVG and GIF handling.
+- **Project Metadata**:
+    - Bumped package version to `0.0.18` in `pubspec.yaml`.
+- **Dependency Management**:
+    - Updated `listen_core` dependency from `^0.0.37` to `^0.0.42`.
+
 ## 0.0.17
 
 - **WebView Navigation & Back Gesture Integration**:
