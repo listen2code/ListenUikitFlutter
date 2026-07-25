@@ -147,9 +147,6 @@ class CommonDialog {
                       (item) => ListTile(
                         dense: true,
                         title: Text(item.label, style: const TextStyle(fontSize: 14)),
-                        subtitle: item.subtitle != null
-                            ? Text(item.subtitle!, style: const TextStyle(fontSize: 12, color: Colors.grey))
-                            : null,
                         trailing: item.value ? Icon(Icons.check_circle, color: accentColor) : null,
                         onTap: () async {
                           if (!isMultiSelect && item.value) return;
@@ -215,9 +212,8 @@ class CommonDialog {
 /// Data model for a selection item within a dialog.
 class DialogSwitchItem {
   final String label;
-  final String? subtitle;
   bool value;
   final dynamic Function(bool) onChanged;
 
-  DialogSwitchItem({required this.label, this.subtitle, required this.value, required this.onChanged});
+  DialogSwitchItem({required this.label, required this.value, required this.onChanged});
 }
