@@ -82,7 +82,9 @@ class CommonBadge extends StatelessWidget {
             Icon(icon, size: iconSize ?? 12.0, color: effectiveTextColor),
             SizedBox(width: spacing),
           ],
-          labelWidget,
+          Flexible(
+            child: labelWidget,
+          ),
         ],
       ),
     );
