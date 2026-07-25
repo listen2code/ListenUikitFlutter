@@ -1,3 +1,9 @@
+
+## 0.0.22
+- **Dialog Components**:
+    - Added a nullable `subtitle` field to the `DialogSwitchItem` class and updated its constructor.
+    - Updated the `ListTile` in `common_dialog.dart` to render the subtitle when provided, using a smaller font size and grey color.
+
 ## 0.0.21
 - **CommonImage Optimization**:
     - Updated `_buildBase64Image` to attempt to retrieve decoded bytes from `Base64ImageCache` before performing a `base64Decode` operation.
