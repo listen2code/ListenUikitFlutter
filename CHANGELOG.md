@@ -1,3 +1,14 @@
+## 0.0.20
+- **New UI Component**:
+    - Created `CommonImagePreview` in `lib/widgets/common_image_preview.dart`.
+    - Implemented `InteractiveViewer` to provide pinch-to-zoom and panning capabilities with a maximum scale of 5.0.
+    - Added double-tap gesture support to reset the zoom level via a `TransformationController`.
+    - Integrated `Hero` animation support to allow smooth transitions from gallery or list views.
+- **Styling and Navigation**:
+    - Designed a premium-styled interface with a black background and a semi-transparent floating back button.
+    - Integrated with `AppNav` for standard back navigation.
+    - Utilized the project's internal `CommonImage` component to handle both URL and file-based image rendering.
+
 ## 0.0.19
 - **New Widget**:
     - Created `CommonImageCropper` in `lib/widgets/common_image_cropper.dart` to handle image manipulation and cropping.
