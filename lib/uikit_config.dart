@@ -12,6 +12,9 @@ class UIKitConfig {
   static const String kLoadFailed = 'Load Failed';
   static const String kRetry = 'Retry';
   static const String kAccessDenied = 'Access Denied';
+  static const String kConfirm = 'Confirm';
+  static const String kCropImage = 'Crop Image';
+  static const String kCropFailed = 'Failed to crop image';
 
   /// A callback that provides translated strings based on a key.
   /// Typically, this is hooked into your app's i18n system.
