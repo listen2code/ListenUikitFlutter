@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:collection';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -152,9 +154,14 @@ class CommonImage extends StatelessWidget {
 
   Widget _buildBase64Image(BuildContext context) {
     try {
-      final commaIndex = source.indexOf(_base64Separator);
-      final base64Str = commaIndex != -1 ? source.substring(commaIndex + 1) : source;
-      final bytes = base64Decode(base64Str.trim());
+      final String trimmedSource = source.trim();
+      Uint8List? bytes = Base64ImageCache.get(trimmedSource);
+      if (bytes == null) {
+        final commaIndex = trimmedSource.indexOf(_base64Separator);
+        final base64Str = commaIndex != -1 ? trimmedSource.substring(commaIndex + 1) : trimmedSource;
+        bytes = base64Decode(base64Str.trim());
+        Base64ImageCache.put(trimmedSource, bytes);
+      }
       return Image.memory(bytes, width: width, height: height, fit: fit, color: color);
     } catch (e) {
       return _buildErrorWidget(context);
@@ -231,4 +238,75 @@ class CommonImage extends StatelessWidget {
       ),
     );
   }
+}
+
+/// A highly-optimized, memory-bounded Least Recently Used (LRU) Cache 
+/// for storing decoded Base64 image byte arrays.
+/// Prevents redundant base64 decoding on every frame build,
+/// and evicts old entries to maintain limits on count and memory size.
+class Base64ImageCache {
+  Base64ImageCache._();
+
+  static int _maxCount = 100; // Default max 100 cached images
+  static int _maxSizeBytes = 20 * 1024 * 1024; // Default max 20 MB memory footprint
+
+  static final LinkedHashMap<String, Uint8List> _map = LinkedHashMap<String, Uint8List>();
+  static int _currentSizeBytes = 0;
+
+  /// Configures the cache limits globally.
+  /// [maxCount] The maximum number of images allowed in the cache.
+  /// [maxSizeBytes] The maximum memory footprint in bytes allowed for the cache.
+  static void configure({int? maxCount, int? maxSizeBytes}) {
+    if (maxCount != null) {
+      _maxCount = maxCount;
+    }
+    if (maxSizeBytes != null) {
+      _maxSizeBytes = maxSizeBytes;
+    }
+    _evictIfNeeded();
+  }
+
+  /// Retrieves an image from the cache and updates its LRU status.
+  static Uint8List? get(String key) {
+    final value = _map.remove(key);
+    if (value != null) {
+      _map[key] = value; // Put back to make it the most recently used
+    }
+    return value;
+  }
+
+  /// Adds a new image to the cache and evicts old entries if bounds are exceeded.
+  static void put(String key, Uint8List value) {
+    final old = _map.remove(key);
+    if (old != null) {
+      _currentSizeBytes -= old.lengthInBytes;
+    }
+    
+    _map[key] = value;
+    _currentSizeBytes += value.lengthInBytes;
+
+    _evictIfNeeded();
+  }
+
+  static void _evictIfNeeded() {
+    while (_map.isNotEmpty && (_map.length > _maxCount || _currentSizeBytes > _maxSizeBytes)) {
+      final firstKey = _map.keys.first;
+      final evicted = _map.remove(firstKey);
+      if (evicted != null) {
+        _currentSizeBytes -= evicted.lengthInBytes;
+      }
+    }
+  }
+
+  /// Clears all entries from the cache.
+  static void clear() {
+    _map.clear();
+    _currentSizeBytes = 0;
+  }
+
+  /// Gets the number of cached items.
+  static int get size => _map.length;
+
+  /// Gets the current total size of cached items in bytes.
+  static int get currentSizeBytes => _currentSizeBytes;
 }

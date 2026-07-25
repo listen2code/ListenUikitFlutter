@@ -1,3 +1,12 @@
+## 0.0.21
+- **CommonImage Optimization**:
+    - Updated `_buildBase64Image` to attempt to retrieve decoded bytes from `Base64ImageCache` before performing a `base64Decode` operation.
+    - Successfully decoded bytes are now automatically stored in the cache for future use.
+- **Base64ImageCache Utility**:
+    - Introduced a `Base64ImageCache` class to manage a `LinkedHashMap` of decoded image data.
+    - Implemented memory-sensitive eviction logic that limits the cache to 100 items or a 20 MB total memory footprint by default.
+    - Added configuration methods to allow global adjustment of cache limits and manual cache clearing.
+
 ## 0.0.20
 - **New UI Component**:
     - Created `CommonImagePreview` in `lib/widgets/common_image_preview.dart`.
