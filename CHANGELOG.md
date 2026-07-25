@@ -1,3 +1,13 @@
+## 0.0.19
+- **New Widget**:
+    - Created `CommonImageCropper` in `lib/widgets/common_image_cropper.dart` to handle image manipulation and cropping.
+    - Added support for both `BoxShape.circle` (for avatars) and `BoxShape.rectangle` cropping areas.
+    - Implemented `InteractiveViewer` to allow users to pan and zoom images within the viewport.
+    - Added image processing logic using `RepaintBoundary` to capture the cropped area and save it as a temporary PNG file.
+    - Integrated localization-ready strings for titles, buttons, and error messages.
+- **Library Exports**:
+    - Exported `CommonImageCropper` in `lib/uikit.dart` to make the widget accessible to consumers of the library.
+
 ## 0.0.18
 - **CommonImage Enhancements**:
     - Added support for Base64 encoded images by detecting data URI schemes (e.g., `data:image/...;base64,`).
