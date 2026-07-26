@@ -321,7 +321,8 @@ class _CommonWebViewState extends State<CommonWebView> {
   }
 
   Widget _buildWebViewBody(BuildContext context, ThemeData theme) {
-    return Stack(
+    final route = ModalRoute.of(context);
+    final webViewStack = Stack(
       children: [
         // 1. WebView Viewport - Always keep in tree to preserve native view and controller channel
         Offstage(
@@ -348,6 +349,38 @@ class _CommonWebViewState extends State<CommonWebView> {
             ),
           ),
       ],
+    );
+
+    if (route == null || route.animation == null) {
+      return webViewStack;
+    }
+
+    return AnimatedBuilder(
+      animation: route.animation!,
+      builder: (context, child) {
+        final status = route.animation!.status;
+        final isPopping = status == AnimationStatus.reverse;
+        if (!isPopping) {
+          return child!;
+        }
+
+        // Fade out the webview content during pop transition to prevent native platform view freezing stutter.
+        final opacity = (1.0 - route.animation!.value).clamp(0.0, 1.0);
+        return Stack(
+          children: [
+            child!,
+            Positioned.fill(
+              child: Opacity(
+                opacity: opacity,
+                child: Container(
+                  color: theme.scaffoldBackgroundColor,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+      child: webViewStack,
     );
   }
 

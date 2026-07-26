@@ -1,4 +1,10 @@
 
+## 0.0.23
+- **Transition Handling**: Integrated `ModalRoute` animation tracking within `_buildWebViewBody` to detect when the view is being popped.
+- **Animation Logic**: Wrapped the WebView stack in an `AnimatedBuilder` that monitors the `AnimationStatus.reverse` state.
+- **Visual Smoothing**: Added a dynamic overlay using the theme's `scaffoldBackgroundColor` that fades in as the route animation value decreases, effectively hiding the native platform view before it is disposed.
+- **Refactoring**: Extracted the WebView and progress indicator into a `webViewStack` variable to improve readability and conditional rendering logic.
+
 ## 0.0.22
 - **Dialog Components**:
     - Added a nullable `subtitle` field to the `DialogSwitchItem` class and updated its constructor.
