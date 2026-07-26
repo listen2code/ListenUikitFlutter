@@ -1,4 +1,10 @@
 
+## 0.0.24
+- **New Property**: Added `preventSwipeBack` to `CommonWebView` (defaulting to `false`) to control whether system navigation gestures are blocked.
+- **Navigation Logic**: Updated `PopScope` and its `canPop` condition to respect the `preventSwipeBack` flag, ensuring the WebView handles back events internally or blocks them as configured.
+- **Cleanup**: Removed `AnimatedBuilder` and `ModalRoute` animation tracking from `_buildWebViewBody`. This removes the custom fade-out effect previously applied during route transitions to simplify the implementation.
+- **Refactoring**: Streamlined `_buildWebViewBody` to return a `Stack` directly and cleaned up formatting across the file.
+
 ## 0.0.23
 - **Transition Handling**: Integrated `ModalRoute` animation tracking within `_buildWebViewBody` to detect when the view is being popped.
 - **Animation Logic**: Wrapped the WebView stack in an `AnimatedBuilder` that monitors the `AnimationStatus.reverse` state.

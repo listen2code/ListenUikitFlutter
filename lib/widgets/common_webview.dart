@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../uikit.dart';
 
 /// A wrapper class for controlling the WebView from parent widgets.
@@ -185,6 +186,10 @@ class CommonWebView extends StatefulWidget {
   /// If set to false, they will directly close the WebView (pop the route).
   final bool enableBackHistory;
 
+  /// Whether to prevent swipe-back gesture on iOS / system back on Android (defaults to false).
+  /// Useful to avoid transition lags/jitters caused by heavy native webviews.
+  final bool preventSwipeBack;
+
   /// The list of URI schemes that are treated as internal web content.
   /// Any scheme not in this list will be intercepted and launched externally.
   /// Defaults to `['http', 'https', 'file', 'chrome', 'about']`.
@@ -216,6 +221,7 @@ class CommonWebView extends StatefulWidget {
     this.maxHtmlHeight,
     this.minHtmlHeight,
     this.enableBackHistory = true,
+    this.preventSwipeBack = false,
     this.webSchemes = const ['http', 'https', 'file', 'chrome', 'about'],
   }) : assert(initialUrl != null || initialHtml != null, 'Either initialUrl or initialHtml must be provided');
 
@@ -268,11 +274,11 @@ class _CommonWebViewState extends State<CommonWebView> {
       body: _buildWebViewBody(context, theme),
     );
 
-    if (!widget.enableBackHistory) {
+    if (!widget.enableBackHistory && !widget.preventSwipeBack) {
       return scaffold;
     }
 
-    final bool canPopWeb = !widget.enableBackHistory || !_canGoBack;
+    final bool canPopWeb = !widget.preventSwipeBack && (!widget.enableBackHistory || !_canGoBack);
 
     return PopScope(
       canPop: canPopWeb,
@@ -281,6 +287,10 @@ class _CommonWebViewState extends State<CommonWebView> {
         final canGoBack = await _webViewController.canGoBack();
         if (canGoBack) {
           await _webViewController.goBack();
+        } else {
+          if (context.mounted) {
+            // Navigator.of(context).pop();
+          }
         }
       },
       child: scaffold,
@@ -295,17 +305,14 @@ class _CommonWebViewState extends State<CommonWebView> {
 
     final webViewWidget = ConstrainedBox(
       constraints: BoxConstraints(minHeight: minHeight, maxHeight: maxHeight),
-      child: SizedBox(
-        height: currentHeight,
-        child: _buildWebViewBody(context, theme),
-      ),
+      child: SizedBox(height: currentHeight, child: _buildWebViewBody(context, theme)),
     );
 
-    if (!widget.enableBackHistory) {
+    if (!widget.enableBackHistory && !widget.preventSwipeBack) {
       return webViewWidget;
     }
 
-    final bool canPopWeb = !widget.enableBackHistory || !_canGoBack;
+    final bool canPopWeb = !widget.preventSwipeBack && (!widget.enableBackHistory || !_canGoBack);
 
     return PopScope(
       canPop: canPopWeb,
@@ -314,6 +321,10 @@ class _CommonWebViewState extends State<CommonWebView> {
         final canGoBack = await _webViewController.canGoBack();
         if (canGoBack) {
           await _webViewController.goBack();
+        } else {
+          if (context.mounted) {
+            // Navigator.of(context).pop();
+          }
         }
       },
       child: webViewWidget,
@@ -321,14 +332,10 @@ class _CommonWebViewState extends State<CommonWebView> {
   }
 
   Widget _buildWebViewBody(BuildContext context, ThemeData theme) {
-    final route = ModalRoute.of(context);
-    final webViewStack = Stack(
+    return Stack(
       children: [
         // 1. WebView Viewport - Always keep in tree to preserve native view and controller channel
-        Offstage(
-          offstage: _hasError,
-          child: _buildWebView(context),
-        ),
+        Offstage(offstage: _hasError, child: _buildWebView(context)),
 
         // 2. Custom Error View
         if (_hasError) _buildErrorView(),
@@ -343,44 +350,10 @@ class _CommonWebViewState extends State<CommonWebView> {
             child: LinearProgressIndicator(
               value: _progress,
               backgroundColor: Colors.transparent,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                widget.progressBarColor ?? theme.colorScheme.primary,
-              ),
+              valueColor: AlwaysStoppedAnimation<Color>(widget.progressBarColor ?? theme.colorScheme.primary),
             ),
           ),
       ],
-    );
-
-    if (route == null || route.animation == null) {
-      return webViewStack;
-    }
-
-    return AnimatedBuilder(
-      animation: route.animation!,
-      builder: (context, child) {
-        final status = route.animation!.status;
-        final isPopping = status == AnimationStatus.reverse;
-        if (!isPopping) {
-          return child!;
-        }
-
-        // Fade out the webview content during pop transition to prevent native platform view freezing stutter.
-        final opacity = (1.0 - route.animation!.value).clamp(0.0, 1.0);
-        return Stack(
-          children: [
-            child!,
-            Positioned.fill(
-              child: Opacity(
-                opacity: opacity,
-                child: Container(
-                  color: theme.scaffoldBackgroundColor,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-      child: webViewStack,
     );
   }
 
