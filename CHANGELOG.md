@@ -1,4 +1,7 @@
 
+## 0.0.25
+- **Navigation**: Uncommented `Navigator.of(context).pop()` calls within the back navigation handlers to ensure the widget pops from the navigation stack when the WebView cannot navigate backward.
+
 ## 0.0.24
 - **New Property**: Added `preventSwipeBack` to `CommonWebView` (defaulting to `false`) to control whether system navigation gestures are blocked.
 - **Navigation Logic**: Updated `PopScope` and its `canPop` condition to respect the `preventSwipeBack` flag, ensuring the WebView handles back events internally or blocks them as configured.

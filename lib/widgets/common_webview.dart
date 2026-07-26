@@ -289,7 +289,7 @@ class _CommonWebViewState extends State<CommonWebView> {
           await _webViewController.goBack();
         } else {
           if (context.mounted) {
-            // Navigator.of(context).pop();
+            Navigator.of(context).pop();
           }
         }
       },
@@ -323,7 +323,7 @@ class _CommonWebViewState extends State<CommonWebView> {
           await _webViewController.goBack();
         } else {
           if (context.mounted) {
-            // Navigator.of(context).pop();
+            Navigator.of(context).pop();
           }
         }
       },
