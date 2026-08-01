@@ -29,3 +29,7 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 /build/
 /coverage/
+
+# Local overrides and devtools configuration
+pubspec_overrides.yaml
+devtools_options.yaml
