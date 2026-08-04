@@ -48,8 +48,8 @@ This README prioritizes:
 
 ```yaml
 dependencies:
-  listen_uikit: ^0.0.3
-  listen_core: ^0.0.4
+  listen_uikit: ^0.0.26
+  listen_core: ^0.0.51
 ```
 
 ### Getting Started
@@ -170,8 +170,8 @@ ListenUiKit 是建立在 `listen_core` 之上的可复用组件层。
 
 ```yaml
 dependencies:
-  listen_uikit: ^0.0.3
-  listen_core: ^0.0.4
+  listen_uikit: ^0.0.26
+  listen_core: ^0.0.51
 ```
 
 ### 快速开始
@@ -292,8 +292,8 @@ ListenUiKit は `listen_core` の上に構築された再利用可能なウィ�
 
 ```yaml
 dependencies:
-  listen_uikit: ^0.0.3
-  listen_core: ^0.0.4
+  listen_uikit: ^0.0.26
+  listen_core: ^0.0.51
 ```
 
 ### スタートガイド

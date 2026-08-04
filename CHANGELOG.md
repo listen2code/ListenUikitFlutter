@@ -1,4 +1,8 @@
 
+## 0.0.26
+- **Dependencies**: Updated `listen_core` dependency to `^0.0.51`.
+- **Documentation & Alignment**: Aligned component specifications and documentation with core infrastructure updates and localized data rendering.
+
 ## 0.0.25
 - **Navigation**: Uncommented `Navigator.of(context).pop()` calls within the back navigation handlers to ensure the widget pops from the navigation stack when the WebView cannot navigate backward.
 
