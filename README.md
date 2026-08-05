@@ -80,7 +80,8 @@ If you use `CommonDialog` or `CommonLoading`, make sure your app has already set
 - Basic: `CommonText`, `CommonImage`, `CommonButton`, `CommonIconButton`, `CommonClickable`, `CommonDivider`
 - Input: `CommonTextField`, `CommonSwitch`
 - Container / Presentation: `CommonCard`, `CommonBadge`, `CommonChip`, `CommonListItem`, `CommonWebView`
-- Feedback: `CommonToast`, `CommonLoading`, `CommonDialog`, `CommonSkeleton`, `CommonEmptyView`, `CommonRefreshList`
+- Feedback: `CommonToast`, `CommonLoading`, `CommonDialog`, `CommonBottomSheet`, `CommonSkeleton`, `CommonEmptyView`, `CommonRefreshList`
+- Media: `CommonImageCropper`, `CommonImagePreview`
 
 ### CommonWebView Usage
 
@@ -202,7 +203,8 @@ void main() {
 - 基础类：`CommonText`、`CommonImage`、`CommonButton`、`CommonIconButton`、`CommonClickable`、`CommonDivider`
 - 输入类：`CommonTextField`、`CommonSwitch`
 - 容器 / 展示类：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
-- 反馈类：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
+- 反馈类：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonBottomSheet`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
+- 媒体类：`CommonImageCropper`、`CommonImagePreview`
 
 ### CommonWebView 使用指南
 
@@ -324,7 +326,8 @@ void main() {
 - 基本：`CommonText`、`CommonImage`、`CommonButton`、`CommonIconButton`、`CommonClickable`、`CommonDivider`
 - 入力：`CommonTextField`、`CommonSwitch`
 - コンテナ / 表示：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
-- フィードバック：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
+- フィードバック：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonBottomSheet`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
+- メディア：`CommonImageCropper`、`CommonImagePreview`
 
 ### CommonWebView の使用方法
 
