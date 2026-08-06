@@ -29,6 +29,7 @@ class CommonImage extends StatelessWidget {
 
   final String? semanticLabel;
   final bool excludeFromSemantics;
+  final Widget? errorWidget;
 
   const CommonImage.asset(
     this.source, {
@@ -40,6 +41,7 @@ class CommonImage extends StatelessWidget {
     this.borderRadius = 0,
     this.semanticLabel,
     this.excludeFromSemantics = false,
+    this.errorWidget,
   }) : _type = _ImageType.asset,
        memCacheWidth = null,
        memCacheHeight = null;
@@ -56,6 +58,7 @@ class CommonImage extends StatelessWidget {
     this.memCacheHeight,
     this.semanticLabel,
     this.excludeFromSemantics = false,
+    this.errorWidget,
   }) : _type = _ImageType.network;
 
   CommonImage.file(
@@ -68,6 +71,7 @@ class CommonImage extends StatelessWidget {
     this.borderRadius = 0,
     this.semanticLabel,
     this.excludeFromSemantics = false,
+    this.errorWidget,
   }) : source = file.path,
        _type = _ImageType.file,
        memCacheWidth = null,
@@ -228,6 +232,16 @@ class CommonImage extends StatelessWidget {
   }
 
   Widget _buildErrorWidget(BuildContext context) {
+    if (errorWidget != null) {
+      final child = SizedBox(width: width, height: height, child: errorWidget!);
+      if (borderRadius > 0) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(borderRadius),
+          child: child,
+        );
+      }
+      return child;
+    }
     final theme = Theme.of(context);
     return ExcludeSemantics(
       child: Container(

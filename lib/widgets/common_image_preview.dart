@@ -40,13 +40,25 @@ class _CommonImagePreviewState extends State<CommonImagePreview> {
 
   @override
   Widget build(BuildContext context) {
+    Widget fallbackErrorWidget = Container(
+      width: 200,
+      height: 200,
+      decoration: const BoxDecoration(color: Colors.white10, shape: BoxShape.circle),
+      child: const Center(
+        child: Icon(Icons.person, size: 100, color: Colors.white54),
+      ),
+    );
+
     Widget imageWidget;
     if (widget.imageFile != null) {
       imageWidget = CommonImage.file(widget.imageFile!);
     } else if (widget.imageUrl != null && widget.imageUrl!.isNotEmpty) {
-      imageWidget = CommonImage.url(widget.imageUrl!);
+      imageWidget = CommonImage.url(
+        widget.imageUrl!,
+        errorWidget: fallbackErrorWidget,
+      );
     } else {
-      imageWidget = const Icon(Icons.broken_image, color: Colors.white, size: 64);
+      imageWidget = fallbackErrorWidget;
     }
 
     if (widget.heroTag != null) {

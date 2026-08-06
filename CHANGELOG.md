@@ -1,4 +1,9 @@
-## 0.0.27L
+## 0.0.28
+- **CommonImage Widget**: Added an optional `errorWidget` property to the `asset`, `network`, and `file` constructors.
+- **Error Rendering**: Refactored `_buildErrorWidget` to prioritize the provided `errorWidget`, ensuring it respects defined dimensions and `borderRadius` constraints.
+- **CommonImagePreview**: Introduced a circular `fallbackErrorWidget` featuring a person icon. This replaces the generic "broken image" icon when an image URL is missing or fails to load.
+
+## 0.0.27
 - **UI Layout**: Modified `CommonButton` to apply conditional default padding based on the `isFullWidth` property.
 - **Padding Defaults**:
     - **Full-width buttons**: Maintains the existing `vertical: 12` padding.
