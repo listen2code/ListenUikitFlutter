@@ -110,7 +110,10 @@ class _CommonButtonState extends State<CommonButton> {
     );
 
     final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.borderRadius));
-    final padding = widget.padding ?? const EdgeInsets.symmetric(vertical: 12);
+    final padding = widget.padding ??
+        (widget.isFullWidth
+            ? const EdgeInsets.symmetric(vertical: 12)
+            : const EdgeInsets.symmetric(horizontal: 16, vertical: 8));
 
     // Visual 'enabled' state only depends on isLoading and provided callback.
     // Debounce is handled internally in _handlePress.

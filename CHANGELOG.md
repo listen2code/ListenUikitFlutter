@@ -1,3 +1,8 @@
+## 0.0.27L
+- **UI Layout**: Modified `CommonButton` to apply conditional default padding based on the `isFullWidth` property.
+- **Padding Defaults**:
+    - **Full-width buttons**: Maintains the existing `vertical: 12` padding.
+    - **Standard buttons**: Now defaults to `horizontal: 16, vertical: 8` when no custom padding is explicitly provided.
 
 ## 0.0.26
 - **Dependencies**: Updated `listen_core` dependency to `^0.0.51`.
