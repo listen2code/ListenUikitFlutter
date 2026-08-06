@@ -86,7 +86,10 @@ class CommonImage extends StatelessWidget {
 
     Widget image;
 
-    final isSvg = source.toLowerCase().endsWith('.svg');
+    final isSvg = source.toLowerCase().endsWith('.svg') ||
+        source.toLowerCase().contains('.svg?') ||
+        source.toLowerCase().contains('/svg?') ||
+        source.toLowerCase().contains('/svg');
     final isGif = source.toLowerCase().endsWith('.gif');
     final isBase64 = source.startsWith(_base64Scheme) || source.contains(_base64Indicator);
 
@@ -152,6 +155,7 @@ class CommonImage extends StatelessWidget {
         fit: fit,
         colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
         placeholderBuilder: (context) => _buildPlaceholder(context),
+        errorBuilder: (context, error, stackTrace) => _buildErrorWidget(context),
       );
     }
   }
