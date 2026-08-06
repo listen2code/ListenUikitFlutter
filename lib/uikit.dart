@@ -6,6 +6,7 @@ export 'uikit_config.dart';
 // Basic Widgets
 export 'widgets/common_text.dart';
 export 'widgets/common_image.dart';
+export 'widgets/common_avatar.dart';
 export 'widgets/common_button.dart';
 export 'widgets/common_icon_button.dart';
 export 'widgets/common_clickable.dart';

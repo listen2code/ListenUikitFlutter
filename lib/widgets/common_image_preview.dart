@@ -40,13 +40,11 @@ class _CommonImagePreviewState extends State<CommonImagePreview> {
 
   @override
   Widget build(BuildContext context) {
-    Widget fallbackErrorWidget = Container(
-      width: 200,
-      height: 200,
-      decoration: const BoxDecoration(color: Colors.white10, shape: BoxShape.circle),
-      child: const Center(
-        child: Icon(Icons.person, size: 100, color: Colors.white54),
-      ),
+    const fallbackErrorWidget = CommonAvatar(
+      size: 200,
+      iconSize: 100,
+      backgroundColor: Colors.white10,
+      iconColor: Colors.white54,
     );
 
     Widget imageWidget;

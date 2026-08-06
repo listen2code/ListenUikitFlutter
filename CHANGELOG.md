@@ -1,3 +1,10 @@
+## 0.0.29
+- **UI Components**: Created `CommonAvatar` in `ListenUiKit`, providing a standardized circular placeholder with customizable size, colors, and icons.
+- **Refactoring**: Replaced inline `Container` and `Icon` implementations with the new `CommonAvatar` widget in `CommonImagePreview`, `HomePage`, and `AboutMeHeader`.
+- **Error Handling**: Updated `CommonImage.url` usages in the home and profile sections to provide `CommonAvatar` as the `errorWidget`, improving the visual experience when remote images fail to load.
+- **Accessibility**: Enhanced the profile header by wrapping the avatar component in a `Semantics` widget with appropriate labels.
+- **UI Kit**: Exported `CommonAvatar` from the main `uikit.dart` library for project-wide availability.
+
 ## 0.0.28
 - **CommonImage Widget**: Added an optional `errorWidget` property to the `asset`, `network`, and `file` constructors.
 - **Error Rendering**: Refactored `_buildErrorWidget` to prioritize the provided `errorWidget`, ensuring it respects defined dimensions and `borderRadius` constraints.
