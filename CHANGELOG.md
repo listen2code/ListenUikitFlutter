@@ -1,3 +1,6 @@
+## 0.0.30
+- **feat**: add CommonAvatar widget and SVG network url support
+
 ## 0.0.29
 - **UI Components**: Created `CommonAvatar` in `ListenUiKit`, providing a standardized circular placeholder with customizable size, colors, and icons.
 - **Refactoring**: Replaced inline `Container` and `Icon` implementations with the new `CommonAvatar` widget in `CommonImagePreview`, `HomePage`, and `AboutMeHeader`.
