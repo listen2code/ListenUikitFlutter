@@ -1,3 +1,9 @@
+## 0.0.31
+- **Typography**: Defined a `defaultStyle` with an explicit `height` and `leadingDistribution` set to `even` to standardize the line box calculation.
+- **Alignment**: Implemented `StrutStyle` in the internal `CommonText` widget with `forceStrutHeight: true` to ensure the badge height remains consistent and text is vertically centered.
+- **Layout**: Updated the internal `Row` to use `MainAxisAlignment.center` to improve the positioning of icons and text labels.
+- **Refactoring**: Cleaned up icon property formatting for better readability.
+
 ## 0.0.30
 - **feat**: add CommonAvatar widget and SVG network url support
 

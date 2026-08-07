@@ -50,16 +50,26 @@ class CommonBadge extends StatelessWidget {
         borderColor ??
         (isOutline ? effectiveColor : (borderWidth != null ? effectiveColor : Colors.transparent));
 
+    final TextStyle defaultStyle = (theme.textTheme.labelSmall ?? const TextStyle()).copyWith(
+      color: effectiveTextColor,
+      fontSize: fontSize,
+      fontWeight: FontWeight.bold,
+      letterSpacing: letterSpacing,
+      height: 1.1,
+      leadingDistribution: TextLeadingDistribution.even,
+    );
+
     // If child is provided, use it. Otherwise, wrap text in CommonText.
     final Widget labelWidget =
         child ??
         CommonText(
           text ?? "",
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: effectiveTextColor,
+          style: defaultStyle,
+          strutStyle: StrutStyle(
             fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            letterSpacing: letterSpacing,
+            height: 1.1,
+            leadingDistribution: TextLeadingDistribution.even,
+            forceStrutHeight: true,
           ),
           maxLines: 1,
           useFittedBox: false,
@@ -76,10 +86,15 @@ class CommonBadge extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (icon != null) ...[
-            Icon(icon, size: iconSize ?? 12.0, color: effectiveTextColor),
+            Icon(
+              icon,
+              size: iconSize ?? 12.0,
+              color: effectiveTextColor,
+            ),
             SizedBox(width: spacing),
           ],
           Flexible(
