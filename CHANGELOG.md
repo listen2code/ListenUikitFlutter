@@ -1,3 +1,9 @@
+## 0.0.32
+- **API Flexibility**: Updated the `CommonImage.file` constructor to accept a `dynamic` parameter instead of a strict `File` type, allowing the widget to handle both `File` objects and string paths.
+- **Web Compatibility**: Introduced `kIsWeb` checks within `_buildSvgImage` and `_buildFileImage`. Since the `dart:io` `File` class is not supported on the web, the widget now returns an error placeholder instead of crashing when attempting to load local files in a browser.
+- **Internal Refactoring**: Updated internal image-building methods to accept `BuildContext`, enabling the display of error widgets when platform-specific constraints are met.
+- **Type Safety**: Added explicit casting and string conversions for file paths to ensure compatibility across different input types.
+
 ## 0.0.31
 - **Typography**: Defined a `defaultStyle` with an explicit `height` and `leadingDistribution` set to `even` to standardize the line box calculation.
 - **Alignment**: Implemented `StrutStyle` in the internal `CommonText` widget with `forceStrutHeight: true` to ensure the badge height remains consistent and text is vertically centered.

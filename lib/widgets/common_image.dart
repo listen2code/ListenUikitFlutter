@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:collection';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -62,7 +63,7 @@ class CommonImage extends StatelessWidget {
   }) : _type = _ImageType.network;
 
   CommonImage.file(
-    File file, {
+    dynamic file, {
     super.key,
     this.width,
     this.height,
@@ -72,7 +73,7 @@ class CommonImage extends StatelessWidget {
     this.semanticLabel,
     this.excludeFromSemantics = false,
     this.errorWidget,
-  }) : source = file.path,
+  }) : source = file is String ? file : (file as dynamic).path.toString(),
        _type = _ImageType.file,
        memCacheWidth = null,
        memCacheHeight = null;
@@ -96,7 +97,7 @@ class CommonImage extends StatelessWidget {
     if (isBase64) {
       image = _buildBase64Image(context);
     } else if (isSvg) {
-      image = _buildSvgImage();
+      image = _buildSvgImage(context);
     } else if (isGif && _type == _ImageType.network) {
       image = _buildNativelyHandledNetworkImage(context);
     } else {
@@ -108,7 +109,7 @@ class CommonImage extends StatelessWidget {
           image = _buildCachedNetworkImage(context);
           break;
         case _ImageType.file:
-          image = _buildFileImage();
+          image = _buildFileImage(context);
           break;
       }
     }
@@ -130,7 +131,7 @@ class CommonImage extends StatelessWidget {
     return image;
   }
 
-  Widget _buildSvgImage() {
+  Widget _buildSvgImage(BuildContext context) {
     if (_type == _ImageType.asset) {
       return SvgPicture.asset(
         source,
@@ -140,8 +141,11 @@ class CommonImage extends StatelessWidget {
         colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
       );
     } else if (_type == _ImageType.file) {
+      if (kIsWeb) {
+        return _buildErrorWidget(context);
+      }
       return SvgPicture.file(
-        File(source),
+        File(source) as dynamic,
         width: width,
         height: height,
         fit: fit,
@@ -180,7 +184,10 @@ class CommonImage extends StatelessWidget {
     return Image.asset(source, width: width, height: height, fit: fit, color: color);
   }
 
-  Widget _buildFileImage() {
+  Widget _buildFileImage(BuildContext context) {
+    if (kIsWeb) {
+      return _buildErrorWidget(context);
+    }
     return Image.file(File(source), width: width, height: height, fit: fit, color: color);
   }
 
