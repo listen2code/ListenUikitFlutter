@@ -48,7 +48,7 @@ This README prioritizes:
 
 ```yaml
 dependencies:
-  listen_uikit: ^0.0.26
+  listen_uikit: ^0.0.32
   listen_core: ^0.0.51
 ```
 
@@ -77,7 +77,7 @@ If you use `CommonDialog` or `CommonLoading`, make sure your app has already set
 
 ### Exported Widget Map
 
-- Basic: `CommonText`, `CommonImage`, `CommonButton`, `CommonIconButton`, `CommonClickable`, `CommonDivider`
+- Basic: `CommonText`, `CommonImage`, `CommonAvatar`, `CommonButton`, `CommonIconButton`, `CommonClickable`, `CommonDivider`
 - Input: `CommonTextField`, `CommonSwitch`
 - Container / Presentation: `CommonCard`, `CommonBadge`, `CommonChip`, `CommonListItem`, `CommonWebView`
 - Feedback: `CommonToast`, `CommonLoading`, `CommonDialog`, `CommonBottomSheet`, `CommonSkeleton`, `CommonEmptyView`, `CommonRefreshList`
@@ -171,7 +171,7 @@ ListenUiKit 是建立在 `listen_core` 之上的可复用组件层。
 
 ```yaml
 dependencies:
-  listen_uikit: ^0.0.26
+  listen_uikit: ^0.0.32
   listen_core: ^0.0.51
 ```
 
@@ -200,7 +200,7 @@ void main() {
 
 ### 导出组件概览
 
-- 基础类：`CommonText`、`CommonImage`、`CommonButton`、`CommonIconButton`、`CommonClickable`、`CommonDivider`
+- 基础类：`CommonText`、`CommonImage`、`CommonAvatar`、`CommonButton`、`CommonIconButton`、`CommonClickable`、`CommonDivider`
 - 输入类：`CommonTextField`、`CommonSwitch`
 - 容器 / 展示类：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
 - 反馈类：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonBottomSheet`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
@@ -294,7 +294,7 @@ ListenUiKit は `listen_core` の上に構築された再利用可能なウィ�
 
 ```yaml
 dependencies:
-  listen_uikit: ^0.0.26
+  listen_uikit: ^0.0.32
   listen_core: ^0.0.51
 ```
 
@@ -323,7 +323,7 @@ void main() {
 
 ### 主要コンポーネント
 
-- 基本：`CommonText`、`CommonImage`、`CommonButton`、`CommonIconButton`、`CommonClickable`、`CommonDivider`
+- 基本：`CommonText`、`CommonImage`、`CommonAvatar`、`CommonButton`、`CommonIconButton`、`CommonClickable`、`CommonDivider`
 - 入力：`CommonTextField`、`CommonSwitch`
 - コンテナ / 表示：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
 - フィードバック：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonBottomSheet`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
