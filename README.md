@@ -49,7 +49,7 @@ This README prioritizes:
 ```yaml
 dependencies:
   listen_uikit: ^0.0.32
-  listen_core: ^0.0.51
+  listen_core: ^0.0.52
 ```
 
 ### Getting Started
