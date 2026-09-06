@@ -174,7 +174,14 @@ class CommonImage extends StatelessWidget {
         bytes = base64Decode(base64Str.trim());
         Base64ImageCache.put(trimmedSource, bytes);
       }
-      return Image.memory(bytes, width: width, height: height, fit: fit, color: color);
+      return Image.memory(
+        bytes,
+        width: width,
+        height: height,
+        fit: fit,
+        color: color,
+        errorBuilder: (context, error, stackTrace) => _buildErrorWidget(context),
+      );
     } catch (e) {
       return _buildErrorWidget(context);
     }
@@ -291,23 +298,31 @@ class Base64ImageCache {
     _evictIfNeeded();
   }
 
+  static String _normalizeKey(String key) {
+    if (key.length <= 128) return key;
+    // For large base64 strings, derive a fast composite key to prevent expensive full-string hashing.
+    return '${key.length}_${key.substring(0, 32)}_${key.substring(key.length - 32)}';
+  }
+
   /// Retrieves an image from the cache and updates its LRU status.
   static Uint8List? get(String key) {
-    final value = _map.remove(key);
+    final normalized = _normalizeKey(key);
+    final value = _map.remove(normalized);
     if (value != null) {
-      _map[key] = value; // Put back to make it the most recently used
+      _map[normalized] = value; // Put back to make it the most recently used
     }
     return value;
   }
 
   /// Adds a new image to the cache and evicts old entries if bounds are exceeded.
   static void put(String key, Uint8List value) {
-    final old = _map.remove(key);
+    final normalized = _normalizeKey(key);
+    final old = _map.remove(normalized);
     if (old != null) {
       _currentSizeBytes -= old.lengthInBytes;
     }
     
-    _map[key] = value;
+    _map[normalized] = value;
     _currentSizeBytes += value.lengthInBytes;
 
     _evictIfNeeded();
