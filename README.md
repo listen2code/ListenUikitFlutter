@@ -83,6 +83,12 @@ If you use `CommonDialog` or `CommonLoading`, make sure your app has already set
 - Feedback: `CommonToast`, `CommonLoading`, `CommonDialog`, `CommonBottomSheet`, `CommonSkeleton`, `CommonEmptyView`, `CommonRefreshList`
 - Media: `CommonImageCropper`, `CommonImagePreview`
 
+### CommonImage Usage
+
+A unified image component supporting assets, network (with caching), disk files, SVG, and Base64 Data URIs:
+- **Resilient Base64 Decoding**: Wrapped with `errorBuilder` to isolate asynchronous image decoder errors (`ImageCodecException`) caused by corrupt or invalid bytes, gracefully falling back to the placeholder/error widget and preventing UI thread event loop starvation.
+- **High-Performance LRU Caching (`Base64ImageCache`)**: Memory-bounded cache (50 entries, 30MB) using composite fingerprint key normalization (`_normalizeKey`) to avoid hashing multi-megabyte strings on every build frame.
+
 ### CommonWebView Usage
 
 A commercial-grade WebView wrapper based on `flutter_inappwebview`. It supports:
@@ -205,6 +211,12 @@ void main() {
 - 容器 / 展示类：`CommonCard`、`CommonBadge`、`CommonChip`、`CommonListItem`、`CommonWebView`
 - 反馈类：`CommonToast`、`CommonLoading`、`CommonDialog`、`CommonBottomSheet`、`CommonSkeleton`、`CommonEmptyView`、`CommonRefreshList`
 - 媒体类：`CommonImageCropper`、`CommonImagePreview`
+
+### CommonImage 使用指南
+
+统一的图片展示组件，无缝支持本地资产、网络图片（自动缓存）、本地磁盘文件、SVG 以及 Base64 Data URI：
+- **高弹性异步容错解码**：内部在 `Image.memory` 显式配置 `errorBuilder` 严格隔离底层 C++ 图片解码器异常（`ImageCodecException`）。当接收到损坏的伪造图片字节时，组件自动降级渲染占位图，彻底根除因未捕获异常与 60fps Ticker 驱动导致的主线程死锁卡死。
+- **高性能 Base64 内存缓存 (`Base64ImageCache`)**：内置 50 项 / 30MB 上限的 LRU 缓存，通过 `_normalizeKey` 复合指纹机制（长度 + 头尾切片）规避多兆长文本在每帧重绘时的昂贵全量哈希计算。
 
 ### CommonWebView 使用指南
 

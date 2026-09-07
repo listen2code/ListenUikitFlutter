@@ -1,3 +1,8 @@
+## 0.0.33
+- **Resilience**: Added `errorBuilder` to `Image.memory` in `CommonImage._buildBase64Image` to gracefully isolate and handle corrupted Base64 image decodings, preventing uncaught `ImageCodecException` loops from locking the UI thread.
+- **Performance**: Implemented `_normalizeKey` composite fingerprinting in `Base64ImageCache` to eliminate expensive full-string hashing for large Base64 data during frame rebuilds.
+- **Testing**: Added `common_image_test.dart` covering corrupted Base64 rendering resilience.
+
 ## 0.0.32
 - **API Flexibility**: Updated the `CommonImage.file` constructor to accept a `dynamic` parameter instead of a strict `File` type, allowing the widget to handle both `File` objects and string paths.
 - **Web Compatibility**: Introduced `kIsWeb` checks within `_buildSvgImage` and `_buildFileImage`. Since the `dart:io` `File` class is not supported on the web, the widget now returns an error placeholder instead of crashing when attempting to load local files in a browser.
